@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml</file>
+        <file>qml/common</file>
+        <file>qml/editorElements</file>
+        <file>qml/entities</file>
+        <file>qml/gameElements</file>
+        <file>qml/levels</file>
+        <file>qml/scenes</file>
+        <file>qml/scenes/dialogs</file>
+        <file>qml/scenes/sceneElements</file>
+        <file>qml/undo</file>
+    </qresource>
+</RCC>
+

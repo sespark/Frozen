@@ -1,0 +1,18 @@
+all icons were edited by me (Matthias Wagner)
+
+Name - License - Source
+
+Add - CC Attribution 3.0 Unported - https://www.iconfinder.com/icons/103172/add_plus_icon
+Control, Play - MIT License - https://www.iconfinder.com/icons/211876/play_icon
+Draw, Edit - Free for commercial use - https://www.iconfinder.com/icons/763339/draw_edit_editor_pen_pencil_tool_write_icon
+Hand - Free for commercial use (Include link to authors website) - https://www.iconfinder.com/icons/174761/cursor_hand_icon
+Home - Free for commercial use - https://www.iconfinder.com/icons/326656/home_icon
+Options - Free for commercial use - https://www.iconfinder.com/icons/763305/configuration_configure_control_editor_gear_options_preferences_setting_settings_system_icon
+Remove - Flaticon basic license (It's necessary to credit the author) - http://www.flaticon.com/free-icon/remove-button_39
+Save - Free for commercial use (Include link to authors website) - https://www.iconfinder.com/icons/175049/save_icon
+Undo, Redo - Free for commercial use - https://www.iconfinder.com/icons/183192/undo_icon
+Download - Free for commercial use - https://www.iconfinder.com/icons/183297/download_icon
+Star - https://www.iconfinder.com/icons/326703/favorite_rate_star_icon
+Leaderboard - self made
+Sound - Free for commercial use - https://www.iconfinder.com/icons/106216/sound_icon
+Music - Free for commercial use - https://www.iconfinder.com/icons/183211/music_note_icon

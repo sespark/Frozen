@@ -2,6 +2,7 @@ import VPlay 2.0
 import QtQuick 2.0
 
 Item {
+    id:moveTouchButton
   // should only be visible and enabled on touch devices, when
   // not in edit mode
   visible: !system.desktopPlatform && gameScene.state != "edit"
@@ -10,6 +11,9 @@ Item {
   // set size
   height: 60
   width: 160
+
+  signal pressed
+  signal released
 
   // anchor to the bottom left of the gameWindowAnchorItem
   anchors.left: gameScene.gameWindowAnchorItem.left
@@ -94,6 +98,8 @@ Item {
     // set controller's xAxis depending on where the user presses
     // make backgrounds visible
     onPressed: {
+        moveTouchButton.pressed()
+
       if(touchPoints[0].x < width/2) {
         controller.xAxis = -1
         backgroundLeft.visible = true
@@ -102,6 +108,7 @@ Item {
         controller.xAxis = 1
         backgroundRight.visible = true
       }
+
     }
 
     onUpdated: {
@@ -112,6 +119,7 @@ Item {
     }
 
     onReleased: {
+        moveTouchButton.released()
       // reset xAxis to zero
       controller.xAxis = 0
 

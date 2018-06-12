@@ -7,8 +7,8 @@ Item {
 
     //    property bool beforeIsPass: false
     //    property int finishLevelNumber: 0
-    //    property bool isPass: playLevelGrid.finishLevelID >= modelData.levelName - 1 ? true : false
-    property bool isPass: true
+    property bool isPass: playLevelGrid.finishLevelID >= modelData.levelName - 1 ? true : false
+    //    property bool isPass: true
     property alias levelName: levelName
 
     signal finish
@@ -27,7 +27,7 @@ Item {
         //color: "#1E90FF"
         //color: "#AEEEEE"             //手机上有点灰暗
         //       color: "lightBlue"
-        //        color: "#63B8FF" //嗯....说不出的感觉  有点好看？
+        color: "#63B8FF" //嗯....说不出的感觉  有点好看？
 
         //        image.source:  "../../../assets/img/text-dialog-background.png"
         borderColor: "transparent"
@@ -44,7 +44,7 @@ Item {
             anchors.centerIn: parent
         }
 
-        opacity: playLevelSelectionItem.isPass ? 0.4 : 0.2
+        opacity: playLevelSelectionItem.isPass ? 0.6 : 0.4
 
         Text {
             id: levelName
@@ -53,10 +53,11 @@ Item {
             height: 16
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
-            //            color: "white"
 
-            //            color: "black"
-            color: "#436EEE"
+            //            color: "white"
+            color: "black"
+            font.bold: true
+            //            color: "#436EEE"
             fontSizeMode: Text.Fit
             font.pixelSize: 15
             minimumPixelSize: 8

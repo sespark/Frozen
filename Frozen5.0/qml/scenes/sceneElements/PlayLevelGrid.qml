@@ -107,7 +107,7 @@ Item {
             anchors.centerIn: parent
 
             columns: 4
-//            rows:3
+            //            rows:3
             spacing: 10
 
             Repeater {
@@ -126,5 +126,16 @@ Item {
         levelSelectionItem.isPass = true
     }
 
-    function refreshLevel() {}
+    function resetLevel(levelID) {
+        var i = levelID + 2
+        var j = 1
+        for (i; i < 9; i++) {
+            var levelSelectionItem = levelListRepeater.itemAt(i)
+            levelSelectionItem.isPass = false
+        }
+        for (j; j <= levelID; j++) {
+            var levelSelectionItem1 = levelListRepeater.itemAt(j)
+            levelSelectionItem1.isPass = true
+        }
+    }
 }

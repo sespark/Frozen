@@ -30,10 +30,6 @@ SceneBase {
     property alias camera: camera
 
     //    property alias currentLevelData
-
-    // Make itemEditor accessible from the outside.
-    // This is necessary for dynamically created items, to be able to
-    // set this editor as their target editor.
     property alias itemEditor: editorOverlay.itemEditor
 
     // this signal is emitted when the user presses the back button
@@ -131,9 +127,9 @@ SceneBase {
         property int bg: 0
 
         // paths to all backgrounds
-        property string bg0: "../../assets/backgroundImage/arctis2.png"
-        property string bg1: "../../assets/backgroundImage/arcticskies1.png"
-        property string bg2: "../../assets/backgroundImage/forest2.jpg"
+        property string bg0: "../../assets/backgroundImage/bg1.jpg"
+        property string bg1: "../../assets/backgroundImage/bg2.jpg"
+        property string bg2: "../../assets/backgroundImage/bg7.jpg"
 
         // if available, load background from levelData
         property int loadedBackground: {
@@ -310,6 +306,8 @@ SceneBase {
 
         // pass TwoAxisController to moveTouchButton
         controller: controller
+        onPressed: player.walking()
+        onReleased: player.stopwalking()
     }
 
     // this button is for jumping on touch devices
@@ -353,6 +351,7 @@ SceneBase {
             // end jump when releasing the up button
             player.stopwalking()
             if (actionName == "up") {
+
                 player.endJump()
             }
         }

@@ -71,15 +71,18 @@ PlatformerEntityBaseDraggable {
             console.debug("reset position start right now")
         }
     }
-    function blockReset() {
+        function blockReset() {
 
-        //                    blockJumpOnly.x = blockJumpOnly.row * gameScene.gridSize
-        //                    blockJumpOnly.y = level.height - (blockJumpOnly.column + 1) * gameScene.gridSize
-        console.debug("reset positon start")
-        blockJumpOnly.x = oldBlockX
-        blockJumpOnly.y = oldBlockY
-        blockCollider.bodyType = Body.Static
-        isResetPosition = true
-        console.debug("reset finish")
-    }
+            //                    blockJumpOnly.x = blockJumpOnly.row * gameScene.gridSize
+            //                    blockJumpOnly.y = level.height - (blockJumpOnly.column + 1) * gameScene.gridSize
+            console.debug("reset positon start")
+            blockJumpOnly.x = oldBlockX
+            blockJumpOnly.y = oldBlockY
+            blockCollider.bodyType = Body.Static
+            isResetPosition = true
+            console.debug("reset finish")
+        }
+//    function blockReset() {
+//        isResetPosition = true
+//    }
 }

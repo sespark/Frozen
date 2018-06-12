@@ -12,19 +12,6 @@ SceneBase {
 
     property int velocityX: 30
 
-    // background
-    //    MultiResolutionImage {
-    //        id: backgroud1
-    //        source: "../../assets/backgroundImage/arctis_bottom.jpg"
-
-    //        anchors.fill: parent.gameWindowAnchorItem
-    //    }
-    //    MultiResolutionImage {
-    //        id: backgroud
-    //        source: "../../assets/backgroundImage/arcticskies1.png"
-
-    //        anchors.fill: parent.gameWindowAnchorItem
-    //    }
     ParallaxScrollingBackground {
         anchors.centerIn: parent
 
@@ -52,10 +39,10 @@ SceneBase {
             font.bold: true
             font.pointSize: header.height * 0.7
             font.pixelSize: 85
-//            color: "#70DBDB"         //蓝绿
-//            color: "#C1CDCD"         //偏白带一点蓝,就很白
-//            color: "#8DB6CD"          //很白
-//            color: "#1E90FF"        //太蓝了，深蓝了
+            //            color: "#70DBDB"         //蓝绿
+            //            color: "#C1CDCD"         //偏白带一点蓝,就很白
+            //            color: "#8DB6CD"          //很白
+            //            color: "#1E90FF"        //太蓝了，深蓝了
             color: "#87CEFF"
             FontLoader {
                 id: loader
@@ -64,27 +51,78 @@ SceneBase {
             font.family: loader.name
         }
 
-        //        PlatformerTextButton {
-        //            id: logout
+        Column {
+            visible: loginScene.login.logining
 
-        //            screenText: "Log Out"
-        //            width: 50
+            id: userInfo
+            spacing: 6
 
-        //            borderWidth: 0
+            width: 50
+            height: header.height
 
-        //            //            borderColor: "transparent"
-        //            anchors {
-        //                left: title.right
-        //                leftMargin: menuScene.width * 0.05
-        //                top: header.top
-        //                topMargin: header.height * 0.5
-        //            }
+            anchors {
+                left: title.right
+                leftMargin: 20
+                top: header.top
+                topMargin: 10
+            }
 
-        ////            onClicked: gameWindow.state = "login"
+            Text {
+                id: userName
 
-        //            textColor: "lightBlue"
-        //            radius: 50
-        //        }
+                text: loginScene.login.userName
+            }
+
+            PlatformerTextButton {
+                id: logout
+                screenText: "log Out"
+                width: 40
+
+                borderWidth: 0
+                color: "lightBlue"
+                radius: 10
+
+                onClicked: {
+                    //                    gameWindow.state = "login"
+                    loginScene.login.logining = false
+                    loginScene.login.isLogin = false
+                    loginScene.login.nameFlag = false
+                    loginScene.login.passwdFlag = false
+                    loginScene.login.userPassLevelNumber = 0
+                    playScene.finishLevelID = 0
+
+                    playScene.resetLevel(-1)
+                    readid.userName = ""
+                    readid.userPassWord = ""
+                    readid.hasUserInfo = false
+                }
+            }
+        }
+
+        PlatformerTextButton {
+            id: logout1
+
+            visible: !loginScene.login.logining
+            screenText: "Log In"
+            width: 37
+
+            borderWidth: 0
+
+            anchors {
+                left: title.right
+                leftMargin: 20
+                top: header.top
+                topMargin: 35
+            }
+
+            onClicked: {
+                gameWindow.state = "login"
+                loginScene.login.nameFlag = false
+                loginScene.login.passwdFlag = false
+            }
+            color: "lightBlue"
+            radius: 10
+        }
     }
 
     //原来的play按钮
@@ -109,7 +147,6 @@ SceneBase {
             playScenePressed()
         }
     }
-
 
     PlatformerImageButton {
         id: levelSceneButton
@@ -198,5 +235,15 @@ SceneBase {
                 nativeUtils.openUrl("https://v-play.net/")
             }
         }
+    }
+
+    function resetLevel() {
+        var i = "2"
+        for (i; i <= "9"; i++) {
+            var levelSelectionItem = playScene.levelListRepeater.itemAt(i)
+            levelSelectionItem.isPass = false
+        }
+        //        levelSelectionItem = playScene.levelListRepeater.itemAt("1")
+        //        levelSelectionItem.isPass = true
     }
 }

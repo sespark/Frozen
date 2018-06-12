@@ -60,7 +60,7 @@ SceneBase {
     // background
     MultiResolutionImage {
         id: backgroud
-        source: "../../assets/backgroundImage/background/ice_land2.jpg"
+        source: "../../assets/backgroundImage/ice_land2.jpg"
 
         anchors.fill: parent.gameWindowAnchorItem
         x: 0
@@ -102,36 +102,33 @@ SceneBase {
             spacing: 5
 
             PlatformerSelectableTextButton {
-              id: myLevels
+                id: myLevels
 
-              screenText: "My Levels"
+                screenText: "My Levels"
 
+                width: 80
+                //              color: "#8DB6CD"
+                color: "#C6E2FF"
 
-              width: 80
-//              color: "#8DB6CD"
-               color: "#C6E2FF"
+                // this button is selected if the state is myLevels
+                isSelected: levelScene.state == "myLevels"
 
-              // this button is selected if the state is myLevels
-              isSelected: levelScene.state == "myLevels"
-
-              // set state to myLevels
-              onClicked: levelScene.state = "myLevels"
+                // set state to myLevels
+                onClicked: levelScene.state = "myLevels"
             }
             PlatformerSelectableTextButton {
-              id: communityLevels
+                id: communityLevels
 
-              screenText: "Community"
+                screenText: "Community"
 
-              width: 80
-              color:"#A4D3EE"
+                width: 80
+                color: "#A4D3EE"
 
+                // this button is selected if the state is communityLevels
+                isSelected: levelScene.state == "communityLevels"
 
-
-              // this button is selected if the state is communityLevels
-              isSelected: levelScene.state == "communityLevels"
-
-              // set state to communityLevels
-              onClicked: levelScene.state = "communityLevels"
+                // set state to communityLevels
+                onClicked: levelScene.state = "communityLevels"
             }
         }
 
@@ -199,7 +196,6 @@ SceneBase {
             // only visible if myLevels are selected
             visible: myLevelsVisible
 
-
             // add new level button
             PlatformerSelectableTextButton {
                 id: newLevelButton
@@ -210,11 +206,10 @@ SceneBase {
 
                 screenText: "add"
                 // background color
-//                 color: "#8DB6CD"         //太暗了
-//                 color: "#009ACD"         //又暗又丑
-//                 color: "#79CDCD"             //偏绿
-                 color: "#cce6ff"
-
+                //                 color: "#8DB6CD"         //太暗了
+                //                 color: "#009ACD"         //又暗又丑
+                //                 color: "#79CDCD"             //偏绿
+                color: "#cce6ff"
 
                 // emit newLevelPressed signal
                 onClicked: newLevelPressed()
@@ -228,9 +223,8 @@ SceneBase {
                 width: 70
                 height: 25
                 textSize: 9
-//                color:"#63B8FF"         //很蓝
+                //                color:"#63B8FF"         //很蓝
                 color: "#cce6ff"
-
 
                 // this button is selected, if the subState is createdLevels
                 isSelected: subState == "createdLevels"
@@ -247,9 +241,8 @@ SceneBase {
                 width: 70
                 height: 25
                 textSize: 9
-//                color: "#00CDCD"        //很绿
+                //                color: "#00CDCD"        //很绿
                 color: "#cce6ff"
-
 
                 // this button is selected, if the subState is downloadedLevels
                 isSelected: subState == "downloadedLevels"
@@ -276,7 +269,6 @@ SceneBase {
                 id: orderButton
                 color: "#cce6ff"
 
-
                 // set text depending on order
                 screenText: order == "created_at" ? "Newest" : order == "average_quality" ? "Highest Rated" : order == "times_downloaded" ? "Most Downloaded" : ""
 
@@ -287,7 +279,6 @@ SceneBase {
             PlatformerTextButton {
                 id: timeLimitButton
                 color: "#cce6ff"
-
 
                 // set text depending on timeLimit
                 screenText: timeLimit == 0 ? "All Time" : timeLimit == 24

@@ -23,8 +23,8 @@ GameWindow {
         audioManager.handleMusic()
     }
 
-    FontLoader{
-        id:superMarioFont
+    FontLoader {
+        id: superMarioFont
         source: "../assets/fonts/SuperMario256.ttf"
     }
 
@@ -35,8 +35,8 @@ GameWindow {
         Component.onCompleted: levelEditor.loadAllLevelsFromStorageLocation(
                                    authorGeneratedLevelsLocation)
 
-        toRemoveEntityTypes: ["ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish","iceFlower","blockJumpOnly","bean"]
-        toStoreEntityTypes: ["ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish","iceFlower","blockJumpOnly","bean"]
+        toRemoveEntityTypes: ["ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish", "iceFlower", "blockJumpOnly", "bean"]
+        toStoreEntityTypes: ["ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish", "iceFlower", "blockJumpOnly", "bean"]
 
         // set the gameNetwork
         gameNetworkItem: gameNetwork
@@ -99,7 +99,10 @@ GameWindow {
             levelScene.isLevelScene = true
         }
         onPlayScenePressed: {
-            gameWindow.state = "play"
+            if (storyScene.isSkip == false)
+                gameWindow.state = "story"
+            else
+                gameWindow.state = "play"
             playScene.isPlayScene = true
         }
     }
@@ -200,48 +203,44 @@ GameWindow {
             }
         }
         onIsLevelFinishChanged: {
-            //            if (finishLevelID < levelEditor.currentLevelName) {
-            //                finishLevelID = levelEditor.currentLevelName
-            //                console.debug(
-            //                            "========gameScene finishLevelId changed: " + finishLevelID)
-            //            }
-            //            if (readid.levelID < gameScene.finishLevelID) {
-            //                console.debug(
-            //                            "========playScene finishLevelId changed: " + finishLevelID)
-            //                readid.levelID = gameScene.finishLevelID
-            //            }
-            if (readid.levelID < levelEditor.currentLevelName) {
-                readid.levelID = levelEditor.currentLevelName
-                console.debug(
-                            "========gameScene finishLevelId changed: " + readid.levelID)
+            if (loginScene.login.userPassLevelNumber < levelEditor.currentLevelName
+                    && loginScene.login.logining) {
+                //                loginScene.login.userPassLevelNumber = levelEditor.currentLevelName
+                //                    readid.setUsername(loginScene.login.userName)
+                //                    readid.setUserpassWord(loginScene.login.userPassword)
+                loginScene.login.addUserPassLevelNumber()
+
+                //                console.debug(
+                //                            "==========================gameScene finishLevelId changed: "
+                //                            + readid.levelID)
             }
 
+            //            else if (loginScene.login.userPassLevelNumber < levelEditor.currentLevelName
+            //                       && !loginScene.login.logining) {
+            //                playScene.finishLevelID++
+            //            }
             playScene.finish()
             gameScene.isLevelFinish = false
             //            loginScene.login.addPassLevelNumber()
         }
     }
 
-    ReadID {
-        id: readid
-        onLevelIDChanged: console.debug("====================================")
-    }
-
     PlayScene {
         id: playScene
 
-        finishLevelID: readid.levelID
-
+        //        finishLevelID: loginScene.login.userPassLevelNumber
+        //        Component.onCompleted: {
+        //            console.debug(
+        //                        "========plaScene constructor finishLevelID: " + finishLevelID)
+        //            console.debug("========plaScene constructor finishLevelID: "
+        //                          + loginScene.login.userPassLevelNumber)
+        //        }
         onBackPressed: {
             gameWindow.state = "menu"
-            //            if (readid.levelID < gameScene.finishLevelID) {
-            //                console.debug(
-            //                            "========playScene finishLevelId changed: " + finishLevelID)
-            //                readid.levelID = gameScene.finishLevelID
-            //            }
         }
         onPlayLevelPressed: {
             levelEditor.loadSingleLevel(levelData)
+
 
             //            currentLevelData = levelData
             // switch to gameScene, play mode
@@ -255,9 +254,39 @@ GameWindow {
         }
     }
 
-    //    LoginScene {
-    //        id: loginScene
-    //    }
+    ReadID {
+        id: readid
+        Component.onCompleted: {
+            if (readid.hasUserInfo && !loginScene.login.logining) {
+                loginScene.login.logining = true
+                loginScene.login.isLogin = true
+
+                loginScene.login.userName = readid.userName
+                loginScene.login.userPassword = readid.userPassWord
+
+                loginScene.login.getUserInfo(loginScene.login.userName)
+
+                playScene.finishLevelID = loginScene.login.userPassLevelNumber
+
+                //                console.debug(
+                //                            "========================================================="
+                //                            + loginScene.login.userName)
+                //                console.debug(
+                //                            "========================================================="
+                //                            + loginScene.login.userPassLevelNumber)
+            }
+        }
+    }
+
+    LoginScene {
+        id: loginScene
+    }
+
+    StoryScene {
+        id: storyScene
+        onNextPress: gameWindow.state = "play"
+    }
+
     state: "menu"
 
     // this state machine handles the transition between scenes
@@ -295,17 +324,17 @@ GameWindow {
                 activeScene: gameScene
             }
         },
-        //        State {
-        //            name: "login"
-        //            PropertyChanges {
-        //                target: loginScene
-        //                opacity: 1
-        //            }
-        //            PropertyChanges {
-        //                target: gameWindow
-        //                activeScene: loginScene
-        //            }
-        //        },
+        State {
+            name: "login"
+            PropertyChanges {
+                target: loginScene
+                opacity: 1
+            }
+            PropertyChanges {
+                target: gameWindow
+                activeScene: loginScene
+            }
+        },
         State {
             name: "play"
             PropertyChanges {
@@ -315,6 +344,17 @@ GameWindow {
             PropertyChanges {
                 target: gameWindow
                 activeScene: playScene
+            }
+        },
+        State {
+            name: "story"
+            PropertyChanges {
+                target: storyScene
+                opacity: 1
+            }
+            PropertyChanges {
+                target: gameWindow
+                activeScene: storyScene
             }
         }
     ]

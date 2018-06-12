@@ -26,7 +26,7 @@ SceneBase {
 
     MultiResolutionImage {
         id: backgroud
-        source: "../../assets/backgroundImage/background/ice_land.jpg"
+        source: "../../assets/backgroundImage/ice_land.jpg"
 
         anchors.fill: parent.gameWindowAnchorItem
         x: 0
@@ -92,5 +92,9 @@ SceneBase {
 
     function finish() {
         playLevelGrid.playLevelFinish()
+    }
+
+    function resetLevel(levelID) {
+        playLevelGrid.resetLevel(levelID)
     }
 }

@@ -10,6 +10,7 @@ FocusScope {
     property alias validator: input.validator
     property alias echoMode: input.echoMode
     property alias input: input
+    property alias hint: hint
 
     property int font_size: 15
     property int maxLength: 15

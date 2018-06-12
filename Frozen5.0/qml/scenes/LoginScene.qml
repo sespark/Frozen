@@ -1,7 +1,9 @@
 import QtQuick 2.7
-import "./sceneElements"
 import VPlay 2.0
 import Login 1.0
+
+import "./sceneElements"
+import "../common"
 
 SceneBase {
     id: login_gui
@@ -18,9 +20,6 @@ SceneBase {
     property double lineInputHeightRate: 0.15
     property alias login: login
 
-    //    property string userName
-    //    property string userPW
-    //    property int userPassLevelNumber: 0
     SystemPalette {
         id: activePalette
     }
@@ -29,55 +28,6 @@ SceneBase {
         id: login
     }
 
-    //    SpriteSequenceVPlay {
-    //        width: 42
-    //        height: 40
-
-    //        //        anchors {
-    //        //            top: parent.top
-    //        //            left: parent.left
-    //        //            topMargin: parent.height * 0.5
-    //        //            leftMargin: parent.width * 0.2
-    //        //        }
-    //        x: 100
-    //        y: 100
-
-    //        SpriteVPlay {
-    //            name: "1"
-    //            frameCount: 3
-    //            frameHeight: 40
-    //            frameWidth: 42
-    //            frameRate: 10
-    //            startFrameColumn: 1
-    //            source: "../../assets/opponent/creatures/haywire/left-0.png"
-    //            to: {
-    //                2: 1
-    //            }
-    //        }
-
-    //        SpriteVPlay {
-    //            name: "2"
-    //            frameCount: 3
-    //            frameHeight: 40
-    //            frameWidth: 42
-    //            frameRate: 10
-    //            startFrameColumn: 1
-    //            source: "../../assets/opponent/creatures/haywire/left-1.png"
-    //            to: {
-    //                3: 1
-    //            }
-    //        }
-
-    //        SpriteVPlay {
-    //            name: "3"
-    //            frameCount: 3
-    //            frameHeight: 40
-    //            frameWidth: 42
-    //            frameRate: 10
-    //            startFrameColumn: 1
-    //            source: "../../assets/opponent/creatures/haywire/left-2.png"
-    //        }
-    //    }
     ParallaxScrollingBackground {
         anchors.centerIn: parent
 
@@ -110,6 +60,28 @@ SceneBase {
             }
             font.family: loader.name
         }
+
+        PlatformerImageButton {
+            id: menuButton
+
+            image.source: "../../assets/ui/home.png"
+
+            width: 40
+            height: 30
+
+            anchors.top: parent.gameWindowAnchorItem
+            anchors.topMargin: 5
+            anchors.right: parent.right
+            anchors.rightMargin: 5
+
+            // go back to MenuScene
+            onClicked: {
+                gameWindow.state = "menu"
+
+                loginScene.login.nameFlag = false
+                loginScene.login.passwdFlag = false
+            }
+        }
     }
 
     //空白栏
@@ -122,7 +94,6 @@ SceneBase {
             id: title1
             anchors {
                 top: parent.top
-                topMargin: space1.height
                 horizontalCenter: parent.horizontalCenter
             }
             text: qsTr("Login")
@@ -159,8 +130,9 @@ SceneBase {
             maxLength: 12
             onEdittingFinished: {
                 // 输入结束时，查找输入的用户名
-                if (userName.inputText != "")
+                if (userName.inputText != "") {
                     login.getUserInfo(userName.inputText)
+                }
             }
         }
 
@@ -214,16 +186,51 @@ SceneBase {
             }
             text: loginButtonText
             onClicked: {
-                if (btn_register.visible && userName.inputText != "") {
-                    //                    gameWindow.state = "menu"
+                if (registerButtonVisible && userName.inputText != "") {
+                    login.getUserInfo(userName.inputText)
                     login.login_clicked(passWord.inputText)
-                    if (login.isLogin)
+                    if (login.isLogin) {
                         gameWindow.state = "menu"
-                } else {
+
+                        readid.userName = login.userName
+                        readid.userPassWord = login.userPassword
+
+                        playScene.finishLevelID = login.userPassLevelNumber
+                        console.debug(
+                                    "logButton:===============================playScene.finishLevelID: " + playScene.finishLevelID)
+                        playScene.resetLevel(login.userPassLevelNumber)
+                    }
+
+                    // 设置输入信息错误/正确的不同颜色
+                    if (login.nameFlag) {
+                        setUserNameColor(true)
+                    } else if (!login.nameFlag)
+                        setUserNameColor(false)
+                    if (login.passwdFlag)
+                        setPassWordColor(true)
+                    else
+                        setPassWordColor(false)
+                } else if (!registerButtonVisible && userName.inputText != "") {
                     login.okBtn_clicked(passWord.inputText,
                                         passWordAgain.inputText,
                                         userName.inputText)
-                    loginBack()
+
+                    // 设置输入信息错误/正确的不同颜色
+                    if (login.nameFlag)
+                        setUserNameColor(false)
+                    else if (!login.nameFlag)
+                        setUserNameColor(true)
+                    if (login.passwdFlag) {
+                        setPassWordColor(true)
+                        setPassWordAgainColor(true)
+                    } else {
+                        setPassWordColor(false)
+                        setPassWordAgainColor(false)
+                    }
+
+                    //注册成功，返回登录界面
+                    if (login.registerSuccess)
+                        loginBack()
                 }
             }
         }
@@ -242,6 +249,7 @@ SceneBase {
             text: "Register"
             visible: registerButtonVisible
             onClicked: {
+                resetTextColor()
                 register()
                 login.receivedb()
             }
@@ -261,8 +269,10 @@ SceneBase {
             onClicked: {
                 if (!passWordAgain.visible)
                     Qt.quit()
-                else
+                else {
                     loginBack()
+                    resetTextColor()
+                }
             }
         }
     }
@@ -310,4 +320,43 @@ SceneBase {
     }
 
     function addPassLevelNumber() {}
+    function resetTextColor() {
+        userName.input.color = "black"
+        passWord.input.color = "black"
+        passWordAgain.input.color = "black"
+
+        userName.hint.color = "#707070"
+        passWord.hint.color = "#707070"
+        passWordAgain.hint.color = "#707070"
+    }
+
+    function setUserNameColor(nameFlag) {
+        if (nameFlag) {
+            userName.input.color = "black"
+            userName.hint.color = "#707070"
+        } else if (!nameFlag) {
+            userName.input.color = "red"
+            userName.hint.color = "red"
+        }
+    }
+    function setPassWordColor(passFlag) {
+        if (passFlag) {
+            passWord.input.color = "black"
+            passWord.hint.color = "#707070"
+        } else if (!passFlag) {
+
+            passWord.input.color = "red"
+            passWord.hint.color = "red"
+        }
+    }
+    function setPassWordAgainColor(passFlag) {
+        if (passFlag) {
+            passWordAgain.input.color = "black"
+            passWordAgain.hint.color = "#707070"
+        } else if (!passFlag) {
+
+            passWordAgain.input.color = "red"
+            passWordAgain.hint.color = "red"
+        }
+    }
 }

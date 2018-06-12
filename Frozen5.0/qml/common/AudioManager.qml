@@ -23,7 +23,7 @@ Item {
 
         autoPlay: false
 
-        source: "../../assets/audio/music/playMusic2.mp3"
+        source: "../../assets/audio/music/playMusic2.ogg"
     }
 
     BackgroundMusic {
